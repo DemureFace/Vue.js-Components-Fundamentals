@@ -1,39 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Vue.js Components Fundamentals</title>
+  <title>Vue.js Slots Fundamentals</title>
 </head>
+
 <body>
-  <div id="app" class="container mx-auto py-6">
-    <div class="content">
-      <h1 class="title">Coffee Plans</h1>
-      <h2 class="subtitle">
-        We travel the world to source the very best single origin coffee for you
-      </h2>
-      <plan-picker></plan-picker>
-    </div>
+  <div id="app">
+    <h1>Vue.js Slots Fundamentals</h1>
+
+    <todo-item>
+      Buy Bananas
+
+      <template #description>
+        <p>
+          Bananas are good for your health.
+        </p>
+      </template>
+
+      <template #button-text>
+        Make it rain
+      </template>
+
+    </todo-item>
+
+    <todo-item>
+      Eat Bananas
+
+      <template #description>
+        <p>
+          Bananas are good.
+        </p>
+      </template>
+
+    </todo-item>
+
   </div>
 
-  <script type="text/x-template" id="plan-picker-template">
-    <div class="plans">
-      <plan-picker-item v-for="plan in plans" :name="plan" @select="selectPlan" :selected-plan="selectedPlan"></plan-picker-item>
+  <script type="text/x-template" id="todo-item-template">
+    <div>
+      <input type="checkbox" v-model="completed">
+      <span :class="{done: completed}">
+        <slot></slot>
+      </span>
+      <slot name="description"></slot>
+      <button>
+        <slot name="button-text">Highlight</slot>
+      </button>
     </div>
   </script>
 
-  <script type="text/x-template" id="plan-picker-item-template">
-    <div @click="select" class="plan" :class="{'active-plan': isSelected}">
-        <div class="description">
-          <span class="title">
-            {{name}}
-          </span>
-        </div>
-      </div>
-  </script>
-  <script src="https://unpkg.com/vue"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.0/dist/vue.js"></script>
   <script src="app.js"></script>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    .done {
+      color: green;
+      text-decoration: line-through;
+    }
+  </style>
 </body>
+
 </html>
